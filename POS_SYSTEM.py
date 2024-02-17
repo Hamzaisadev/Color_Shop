@@ -1,11 +1,15 @@
-import csv 
+from sys import maxsize
+from tkinter import *
 
 
 
-def Add_Product():
-    name = input()
-    Price = input()
-    sku =  input()
-    return()
+root = Tk()
 
-Add_Product  
+
+
+root.geometry("480x480")
+root.minsize(500,500)
+root.maxsize(900,900)
+
+
+root.mainloop()
