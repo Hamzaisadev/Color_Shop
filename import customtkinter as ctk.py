@@ -31,6 +31,7 @@ def get_product():
     
 # lets make buttons
 #editing buttons aswell
+
 #add to cart button
 add_to_cart = customtkinter.CTkButton(root,
     text ="add to cart",
@@ -108,12 +109,56 @@ history_button.pack(pady=20)
 
 
 
-    #we use .CTkEntry to make entrybox
+#we use .CTkEntry to make entrybox
+#product box
 enter_product = customtkinter.CTkEntry(root,
-    placeholder_text= "Enter product")
+    placeholder_text= "Enter product",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="yellow",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+
+#Quantity box
+enter_quantity = customtkinter.CTkEntry(root,
+    placeholder_text= "Enter Quantity",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="yellow",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+
+#password box
+enter_password = customtkinter.CTkEntry(root,
+    placeholder_text= "Enter Password",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="yellow",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+
+
+#Username box
+enter_username= customtkinter.CTkEntry(root,
+    placeholder_text= "Enter Username",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="yellow",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+
+
+
 
 #packing entry boxes
 enter_product.pack(pady=10)
+enter_quantity.pack(pady=10)
+enter_username.pack(pady=10)
+enter_password.pack(pady=10)
 
 
 
