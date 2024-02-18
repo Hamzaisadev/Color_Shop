@@ -50,7 +50,7 @@ button_clear_cart = tk.Button(root, text="Clear Cart", command=clear_cart)
 
 # Create a listbox to display added products
 listbox_products = tk.Listbox(root, selectmode=tk.SINGLE, height=10, width=40)
-listbox_BILL = tk.Listbox(root, selectmode=tk.SINGLE, height=16, width=40)
+listbox_bill = tk.Listbox(root, selectmode=tk.SINGLE, height=16, width=40)
 
 # Create a label for displaying the total amount
 label_total = tk.Label(root, text="Total Amount: $0.00")
@@ -67,7 +67,7 @@ button_generate_bill.grid(row=2, column=1, padx=10, pady=10)
 button_clear_cart.grid(row=9, column=2, padx=10, pady=10)
 
 listbox_products.grid(row=3, column=2, columnspan=3, padx=20, pady=10)
-listbox_BILL.grid(row=3, column=2, columnspan=4, padx=10, pady=10)
+listbox_bill.grid(row=3, column=2, columnspan=4, padx=10, pady=10)
 
 label_total.grid(row=4, column=2, columnspan=3, padx=10, pady=10)
 
