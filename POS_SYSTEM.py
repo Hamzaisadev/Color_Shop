@@ -49,7 +49,7 @@ button_generate_bill = tk.Button(root, text="Generate Bill", command=generate_bi
 button_clear_cart = tk.Button(root, text="Clear Cart", command=clear_cart)
 
 # Create a listbox to display added products
-listbox_products = tk.Listbox(root, selectmode=tk.SINGLE, height=10, width=40)
+listbox_products = tk.Listbox(aroot, selectmode=tk.SINGLE, height=10, width=40)
 listbox_bill = tk.Listbox(root, selectmode=tk.SINGLE, height=16, width=40)
 
 # Create a label for displaying the total amount
