@@ -12,6 +12,10 @@ def add_product():
     # Add the product to the list (you can customize this part)
     added_products.append((product_name, float(product_price)))
 
+    # Update the listbox display
+    listbox_products.insert(tk.END, product_name)
+    listbox_products.insert(tk.END , f"Price: ${product_price}")
+
     # Example: Display a message box with the added product
     messagebox.showinfo("Product Added", f"Product '{product_name}' added successfully!")
 
@@ -19,12 +23,6 @@ def generate_bill():
     # Calculate the total amount based on added products
     total_amount = sum(price for _, price in added_products)
     label_total.config(text=f"Total Amount: ${total_amount:.2f}")
-
-def clear_cart():
-    # Clear the list of added products
-    added_products.clear()
-    listbox_products.delete(0, tk.END)
-    label_total.config(text="Total Amount: $0.00")
 
 root = tk.Tk()
 root.title("Color Shop POS System")
@@ -40,10 +38,11 @@ entry_price = tk.Entry(root)
 # Create buttons
 button_add = tk.Button(root, text="Add Product", command=add_product)
 button_generate_bill = tk.Button(root, text="Generate Bill", command=generate_bill)
-button_clear_cart = tk.Button(root, text="Clear Cart", command=clear_cart)
+button_clear_cart = tk.Button(root, text="Clear Cart", command=generate_bill)
 
 # Create a listbox to display added products
 listbox_products = tk.Listbox(root, selectmode=tk.SINGLE, height=10, width=40)
+listbox_cart = tk.Listbox(root, selectmode=tk.SINGLE, height=5, width=20)
 
 # Create a label for displaying the total amount
 label_total = tk.Label(root, text="Total Amount: $0.00")
@@ -57,11 +56,9 @@ entry_price.pack()
 
 button_add.pack()
 button_generate_bill.pack()
-button_clear_cart.pack()
 
 listbox_products.pack()
-
+listbox_cart.pack()
 label_total.pack()
 
 root.mainloop()
-
