@@ -1,11 +1,11 @@
 from tkinter import *
 import customtkinter
+from PIL import Image
 from customtkinter import *
 from CTkMessagebox import CTkMessagebox
 
-#first i will add required module tkinter AND CUSTOM TKINTER
-# First, import the custom tkinter module am
-
+#images
+img = customtkinter.CTkImage(Image.open('images/logo1.png'),size=(170,170))
 
 
 
@@ -25,9 +25,8 @@ root.title('POS System')
 # root.iconbitmap("path/to/your/iconfile.ico")
 
 # Set the window size
-root.geometry("1500x750")
-root.minsize(1400, 800)
-
+root.attributes("-fullscreen", "True")
+root.resizable(False, False)
 
 def get_product():
     return
@@ -52,7 +51,7 @@ def exit_program():
 def calculate_total():
   print()
   
-    # Add your logic here for calculating total
+    
 
 
 def login():
@@ -64,17 +63,17 @@ def login():
     admin.title("Admin Page")
     
   elif username == "" and password == "":
-    CTkMessagebox(title="Error", message="Please enter username and password", icon="error")
+    CTkMessagebox(title="Error", message="Please enter username and password", icon="warning")
 
 
   elif username == "":
-    CTkMessagebox(title="Error", message="Please enter username", icon="error")
+    CTkMessagebox(title="Error", message="Please enter username", icon="warning")
 
   elif password == "":
-    CTkMessagebox(title="Error", message="Please enter password", icon="error")
+    CTkMessagebox(title="Error", message="Please enter password", icon="warning")
 
   else:
-    CTkMessagebox(title="Error", message="Invalid username or password", icon="error")
+    CTkMessagebox(title="Error", message="Invalid username or password", icon="warning")
   
     
 
@@ -154,7 +153,7 @@ history_button = customtkinter.CTkButton(root, text ="History",
     width =120,
     height =60,
     font=("helvetica",19),
-    text_color="black",
+    text_color="#1B1B1E",
     fg_color="yellow",
     hover_color="#c2b84e",
     corner_radius=200)
@@ -168,7 +167,7 @@ enter_product = customtkinter.CTkEntry(root,
     width=500,
     height=60,
     font=("helvetica",24),
-    text_color="yellow",
+    text_color="#F5DD90",
     placeholder_text_color="yellow",
     corner_radius=200)
 
@@ -178,17 +177,17 @@ enter_quantity = customtkinter.CTkEntry(root,
     width=500,
     height=60,
     font=("helvetica",24),
-    text_color="yellow",
+    text_color="#F5DD90",
     placeholder_text_color="yellow",
     corner_radius=200)
 
 #password box
 enter_password = customtkinter.CTkEntry(root,
     placeholder_text= "Enter Password",
-    width=500,
+    width=460,
     height=60,
     font=("helvetica",24),
-    text_color="yellow",
+    text_color="#F5DD90",
     placeholder_text_color="yellow",
     corner_radius=200)
 
@@ -196,12 +195,12 @@ enter_password = customtkinter.CTkEntry(root,
 #Username box
 enter_username= customtkinter.CTkEntry(root,
     placeholder_text= "Enter Username",
-    width=500,
+    width=460,
     height=60,
     font=("helvetica",24),
-    text_color="yellow",
+    text_color="#F5DD90",
     placeholder_text_color="yellow",
-    corner_radius=200)
+    corner_radius=200,)
 
 
 
@@ -228,55 +227,49 @@ password_label = customtkinter.CTkLabel(root,
 
 
 headingLabel= customtkinter.CTkLabel(root ,text='KAMAL PAINT PORTAL',
-  font=('times new roman',30,'bold'),
+  font=('times new roman',50,'bold'),
   text_color='yellow',
-  fg_color='#F57D1F',
-  justify='right')
-headingLabel.pack()
+  image=img,
+  compound=LEFT)
 
 
+# Create a grid for the input widgets
+input_grid = Frame(root)
+input_grid.rowconfigure(0, weight=1)
+input_grid.rowconfigure(1, weight=1)
+input_grid.rowconfigure(2, weight=1)
+input_grid.rowconfigure(3, weight=1)
+input_grid.columnconfigure(0, weight=1)
 
-#packing And placing Everything
+# Create a grid for the buttons
+button_grid = Frame(root)
+button_grid.rowconfigure(0, weight=1)
+button_grid.rowconfigure(1, weight=1)
+button_grid.rowconfigure(2, weight=1)
+button_grid.rowconfigure(3, weight=1)
+button_grid.rowconfigure(4, weight=1)
+button_grid.rowconfigure(5, weight=1)
+button_grid.columnconfigure(0, weight=1)
 
-#entry boxes :
+# Place the input widgets in the grid
+enter_product.grid(row=9, column=0, padx=5, pady=5,)
+enter_quantity.grid(row=21, column=0, padx=5, pady=5,)
+enter_username.grid(row=1, column=5,padx=10)
+enter_password.grid(row=1, column=6, padx=10, pady=5,)
 
-enter_product.pack(pady=10)
-enter_product.place(x=200,y=100)
-
-enter_quantity.pack(pady=10)
-enter_quantity.place(x=200,y=200)
-
-enter_username.pack(pady=10)
-enter_username.place(x=200,y=300)
-
-enter_password.pack(pady=10)
-enter_password.place(x=200,y=400)
-
-#buttons :
-
-add_to_cart.pack(pady=20)
-add_to_cart.place(x=200,y=500)
-
-exit_button.pack(pady=20)
-exit_button.place(x=200,y=600)
-
-total_button.pack(pady=20)
-total_button.place(x=200,y=700)
-
-login_button.pack(pady=20)
-login_button.place(x=200,y=800)
-
-print_bill_button.pack(pady=20)
-print_bill_button.place(x=200,y=900)
-
-history_button.pack(pady=20)
-history_button.place(x=200,y=1000)
-
-product_label.pack(pady=40)
-price_label.pack(pady=40)
-login_label.pack(pady=40)
-password_label.pack(pady=40)
+# Place the buttons in the grid
+add_to_cart.grid(row=10, column=0, padx=5, pady=5,)
+exit_button.grid(row=7, column=5, padx=5, pady=5,)
+total_button.grid(row=2, column=6, padx=5, pady=5,)
+login_button.grid(row=1, column=7, padx=10, pady=5,)
+print_bill_button.grid(row=9, column=7, padx=5, pady=5)
+history_button.grid(row=5, column=0, padx=5, pady=5,)
+headingLabel.grid(row=1, column=0,padx=40,)
+# ...
 
 # Start the main loop
+
+
+
 root.mainloop()
 #lets make a function that will show output from entry box when i click button
