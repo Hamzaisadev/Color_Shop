@@ -128,7 +128,7 @@ def login():
   username = enter_username.get()
   password = enter_password.get()
   if username == "admin" and password == "admin":
-    admin = customtkinter.CTkToplevel()
+    admin = customtkinter.CTkToplevel(master)
     admin.geometry("1200x550")
     admin.title("Admin Page")
 
