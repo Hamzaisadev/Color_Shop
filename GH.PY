@@ -9,7 +9,7 @@ import xlrd
 import datetime
 
 
-
+bill_amount = 0
 #images
 img = customtkinter.CTkImage(Image.open('images/logo1.png'),size=(170,170))
 
@@ -26,16 +26,18 @@ root = customtkinter.CTk()
 
 #here i am taking the size of the screenof the user with .winfo_screenwidth() and .winfo_screenheight()
 
-#width= root.winfo_screenwidth() 
-#height=root.winfo_screenheight()
+width= root.winfo_screenwidth() 
+height=root.winfo_screenheight()
 
 
 
 # now I will use .geometry to set a size of the window and
 #I will give the width and height variable as arguments
 
-#root.geometry("%dx%d" % (width, height))
-root.geometry("1000x600")
+root.geometry("%dx%d" % (width, height))
+
+root.state("iconic")
+
 
 #now I will set the title of the window
 
@@ -52,6 +54,7 @@ root.title('POS System')
 def add_to_cart():
   
 #first we will we will take product and quantity from the entry boxes with .get
+  df = pd.read_excel('data/products.xlsx')
   product = enter_product.get()
   quantity = enter_quantity.get()
   #now I will read the data from our Excel file using Panda module I imported
@@ -128,9 +131,82 @@ def login():
   username = enter_username.get()
   password = enter_password.get()
   if username == "admin" and password == "admin":
-    admin = customtkinter.CTkToplevel(master)
+    admin = customtkinter.CTkToplevel(root)
     admin.geometry("1200x550")
     admin.title("Admin Page")
+    admin.wm_transient(root)
+    
+    
+    
+    
+    save_product = customtkinter.CTkButton(admin, text ="SAVE",
+    width =120,
+    height =60,
+    font=("helvetica",19),
+    text_color="black",
+    fg_color="yellow",
+    hover_color="#c2b84e",
+    corner_radius=200,
+    command=exit_program)
+    
+    delete_product = customtkinter.CTkButton(admin, text ="SAVE",
+    width =120,
+    height =60,
+    font=("helvetica",19),
+    text_color="black",
+    fg_color="yellow",
+    hover_color="#c2b84e",
+    corner_radius=200,
+    command=exit_program)
+    
+    
+    
+    
+    
+    enter_product_name = customtkinter.CTkEntry(admin,
+    placeholder_text= "Enter product name",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="#F5DD90",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+    
+    
+    enter_product_quantity = customtkinter.CTkEntry(admin,
+    placeholder_text= "Enter product quantity",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="#F5DD90",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+    
+    
+    enter_product_price = customtkinter.CTkEntry(admin,
+    placeholder_text= "Enter Product Price",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="#F5DD90",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+    
+    
+    
+    
+    
+    
+    
+    
+    save_product.grid(row=1, column=3, )
+    delete_product.grid(row=2, column=3, )
+    enter_product_name.grid(row=3, column=3, )
+    enter_product_quantity.grid(row=4, column=3, )
+    enter_product_price.grid(row=admin, column=3, )
+    
+    
+    
 
   elif username == "" and password == "":
     CTkMessagebox(title="Error", message="Please enter username and password", icon="warning")
@@ -150,6 +226,7 @@ def login():
 
 def print_bill():
   print()
+
 
 
 
@@ -196,8 +273,6 @@ total_button = customtkinter.CTkButton(root, text ="Total",
     corner_radius=200)
 
 
-def print_bill():
-  
 
 
 
@@ -318,54 +393,66 @@ cart_listbox = CTkListbox(root,
   height=500,
   font=("helvetica",24))
 
-cart_listbox.insert(0, "Option 0")
-cart_listbox.insert(1, "Option 1")
-cart_listbox.insert(2, "Option 2")
-cart_listbox.insert(3, "Option 3")
-cart_listbox.insert(4, "Option 4")
-cart_listbox.insert(5, "Option 5")
-cart_listbox.insert(6, "Option 6")
-cart_listbox.insert(7, "Option 7")
-cart_listbox.insert("END", "Option 8")
-
 
 # Create a grid for the input widgets
-input_grid = Frame(root)
-input_grid.rowconfigure(0, weight=1)
-input_grid.rowconfigure(1, weight=1)
-input_grid.rowconfigure(2, weight=1)
-input_grid.rowconfigure(3, weight=1)
-input_grid.columnconfigure(0, weight=1)
 
-# Create a grid for the buttons
-button_grid = Frame(root)
-button_grid.rowconfigure(0, weight=1)
-button_grid.rowconfigure(1, weight=1)
-button_grid.rowconfigure(2, weight=1)
-button_grid.rowconfigure(3, weight=1)
-button_grid.rowconfigure(4, weight=1)
-button_grid.rowconfigure(5, weight=1)
-button_grid.columnconfigure(0, weight=1)
+root.columnconfigure((1,2,3,4,5,6,7,8,9,),weight=0)
 
 # Place the input widgets in the grid
-enter_product.grid(row=3, column=3, padx=5, pady=5,)
-enter_quantity.grid(row=1, column=0, padx=5, pady=5,)
-enter_username.grid(row=1, column=5,padx=10)
-enter_password.grid(row=1, column=6, padx=10, pady=5,)
+enter_product.grid(row=4, column=0, )
+enter_quantity.grid(row=5, column=0, )
+enter_username.grid(row=1, column=2,)
+enter_password.grid(row=1, column=3, )
 
 # Place the buttons in the grid
-add_to_cart_button.grid(row=3, column=2, padx=5, pady=5,)
-exit_button.grid(row=7, column=5, padx=5, pady=5,)
-total_button.grid(row=2, column=6, padx=5, pady=5,)
-login_button.grid(row=1, column=7, padx=10, pady=5,)
-print_bill_button.grid(row=9, column=7, padx=5, pady=5)
-history_button.grid(row=5, column=0, padx=5, 
-pady=5,)
-cart_listbox.grid(row=7, column=6, padx=5, pady=5,)
-headingLabel.grid(row=1, column=0,padx=40,)
+add_to_cart_button.grid(row=2, column=3, )
+exit_button.grid(row=3, column=3,)
+total_button.grid(row=4, column=3, )
+login_button.grid(row=5, column=3, )
+print_bill_button.grid(row=6, column=3, )
+history_button.grid(row=7, column=3,)
+cart_listbox.grid(row=5, column=4, )
+headingLabel.grid(row=1, column=0 ,)
 # ...
 
 # Start the main loop
+
+
+
+
+
+
+
+
+
+# -------------------------ADMIN WINDOW----------------------------
+
+
+# exit_button = customtkinter.CTkButton(admin, text ="Exit",
+#     width =120,
+#     height =60,
+#     font=("helvetica",19),
+#     text_color="black",
+#     fg_color="yellow",
+#     hover_color="#c2b84e",
+#     corner_radius=200,
+#     command=exit_program)
+
+
+
+# enter_quantity = customtkinter.CTkEntry(admin,
+#     placeholder_text= "Enter Quantity",
+#     width=500,
+#     height=60,
+#     font=("helvetica",24),
+#     text_color="#F5DD90",
+#     placeholder_text_color="yellow",
+#     corner_radius=200)
+
+
+
+
+
 
 
 
