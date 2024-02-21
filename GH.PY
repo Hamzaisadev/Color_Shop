@@ -6,15 +6,10 @@ from tkinter import ttk
 import customtkinter
 import pandas as pd
 import xlrd
-<<<<<<< HEAD
-import datetime
-
-=======
 from CTkListbox import *
 from CTkMessagebox import CTkMessagebox
 from customtkinter import *
 from PIL import Image
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
 
 bill_amount = 0
 #images
@@ -34,23 +29,17 @@ root = customtkinter.CTk()
 
 #here i am taking the size of the screenof the user with .winfo_screenwidth() and .winfo_screenheight()
 
-width= root.winfo_screenwidth() 
-height=root.winfo_screenheight()
+#width= root.winfo_screenwidth() 
+#height=root.winfo_screenheight()
 
 
 
 # now I will use .geometry to set a size of the window and
 #I will give the width and height variable as arguments
 
-<<<<<<< HEAD
-root.geometry("%dx%d" % (width, height))
+root.geometry("1920x1080")
 
-root.state("iconic")
-=======
-root.geometry("1000x1000")
-
-#root.state("iconic")
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
+root.state("zoomed")
 
 
 #now I will set the title of the window
@@ -145,112 +134,10 @@ def login():
   password = enter_password.get()
   if username == "admin" and password == "admin":
     admin = customtkinter.CTkToplevel(root)
-    admin.geometry("1200x550")
+    admin.geometry("1920x1080")
     admin.title("Admin Page")
     admin.wm_transient(root)
-<<<<<<< HEAD
-    
-    
-    
-    
-    save_product = customtkinter.CTkButton(admin, text ="SAVE",
-=======
 
-  admin_heading_frame = customtkinter.CTkFrame(master=admin, width=900, height=200)
-  product_add_frame = customtkinter.CTkFrame(master=admin, width=900, height=200)
-  exel_file = customtkinter.CTkFrame(master=admin, width=900, height=900)
-
-
-    save_product = customtkinter.CTkButton(product_add_frame, text ="Save Product",
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
-    width =120,
-    height =60,
-    font=("helvetica",19),
-    text_color="black",
-    fg_color="yellow",
-    hover_color="#c2b84e",
-    corner_radius=200,
-    command=exit_program)
-<<<<<<< HEAD
-    
-    delete_product = customtkinter.CTkButton(admin, text ="SAVE",
-=======
-
-    delete_product = customtkinter.CTkButton(product_add_frame, text ="Delete Product",
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
-    width =120,
-    height =60,
-    font=("helvetica",19),
-    text_color="black",
-    fg_color="yellow",
-    hover_color="#c2b84e",
-<<<<<<< HEAD
-    corner_radius=200,
-    command=exit_program)
-    
-    
-    
-    
-    
-    enter_product_name = customtkinter.CTkEntry(admin,
-=======
-    corner_radius=200,)
-
-
-
-
-
-    enter_product_name = customtkinter.CTkEntry(product_add_frame,
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
-    placeholder_text= "Enter product name",
-    width=500,
-    height=60,
-    font=("helvetica",24),
-    text_color="#F5DD90",
-    placeholder_text_color="yellow",
-    corner_radius=200)
-<<<<<<< HEAD
-    
-    
-    enter_product_quantity = customtkinter.CTkEntry(admin,
-=======
-
-
-    enter_product_quantity = customtkinter.CTkEntry(product_add_frame,
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
-    placeholder_text= "Enter product quantity",
-    width=500,
-    height=60,
-    font=("helvetica",24),
-    text_color="#F5DD90",
-    placeholder_text_color="yellow",
-    corner_radius=200)
-<<<<<<< HEAD
-    
-    
-    enter_product_price = customtkinter.CTkEntry(admin,
-=======
-
-
-    enter_product_price = customtkinter.CTkEntry(product_add_frame,
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
-    placeholder_text= "Enter Product Price",
-    width=500,
-    height=60,
-    font=("helvetica",24),
-    text_color="#F5DD90",
-    placeholder_text_color="yellow",
-    corner_radius=200)
-<<<<<<< HEAD
-    
-    
-    
-    
-    
-    
-    
-    
-=======
 
 
 
@@ -258,26 +145,93 @@ def login():
   #first i will configure the main frames in admin window
   
   
+    admin_heading_frame = customtkinter.CTkFrame(admin, width=100, height=100)
+    product_add_frame = customtkinter.CTkFrame(admin, width=100, height=100)
+    exel_file_frame = customtkinter.CTkFrame(admin, width=100, height=100)
 
 
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
-    save_product.grid(row=1, column=3, )
-    delete_product.grid(row=2, column=3, )
-    enter_product_name.grid(row=3, column=3, )
-    enter_product_quantity.grid(row=4, column=3, )
-    enter_product_price.grid(row=admin, column=3, )
-<<<<<<< HEAD
+    save_product = customtkinter.CTkButton(product_add_frame, text ="Save Product",
+      width =120,
+      height =60,
+      font=("helvetica",19),
+      text_color="black",
+      fg_color="yellow",
+      hover_color="#c2b84e",
+      corner_radius=200,
+      command=exit_program)
+
+    delete_product = customtkinter.CTkButton(product_add_frame, text ="Delete Product",
+      width =120,
+      height =60,
+      font=("helvetica",19),
+      text_color="black",
+      fg_color="yellow",
+      hover_color="#c2b84e",
+      corner_radius=200,)
+
+
+
+
+
+    enter_product_name = customtkinter.CTkEntry(product_add_frame,
+      placeholder_text= "Enter product name",
+      width=500,
+      height=60,
+      font=("helvetica",24),
+      text_color="#F5DD90",
+      placeholder_text_color="yellow",
+      corner_radius=200)
+
+
+    enter_product_quantity = customtkinter.CTkEntry(product_add_frame,
+      placeholder_text= "Enter product quantity",
+      width=500,
+      height=60,
+      font=("helvetica",24),
+      text_color="#F5DD90",
+      placeholder_text_color="yellow",
+      corner_radius=200)
+
+    admin_heading_Label= customtkinter.CTkLabel(admin_heading_frame ,text='HELLO ADMIN',
+      font=('times new roman',50,'bold'),
+      text_color='yellow',
+      image=img, # i imported this img at the start of the code
+      compound=LEFT)
+    
+    
+    enter_product_price = customtkinter.CTkEntry(product_add_frame,
+      placeholder_text= "Enter Product Price",
+      width=500,
+      height=60,
+      font=("helvetica",24),
+      text_color="#F5DD90",
+      placeholder_text_color="yellow",
+      corner_radius=200)
+
+    admin.columnconfigure(0,weight =1,uniform="a")
+    admin.columnconfigure(1,weight =4,uniform="a")
+    admin.rowconfigure(0,weight =1,uniform="a")
+    admin.rowconfigure(1,weight =5,uniform="a")
+    # Adding widgets to the frames
+    admin_heading_frame.grid(row=0, column=0, columnspan=2,padx=5, sticky=tkinter.EW)
+    product_add_frame.grid(row=1, column=0,padx=5, sticky=tkinter.NSEW)
+    exel_file_frame.grid(row=1, column=1,padx=5, sticky=tkinter.NSEW)
+    
+    admin_heading_frame.columnconfigure(1,weight =5,uniform="a")
+    admin_heading_Label.grid(row=0, column=0, columnspan=2,padx=5, sticky=tkinter.EW)
+    
+    
+    product_add_frame
+    exel_file_frame
+    
+
     
     
     
-=======
 
-
-
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
 
   elif username == "" and password == "":
-    CTkMessagebox(title="Error", message="Please enter username and password", icon="warning")
+      CTkMessagebox(title="Error", message="Please enter username and password", icon="warning")
 
 
   elif username == "":
@@ -308,7 +262,7 @@ def show_history():
 #lets make heading menu i will include a logo ,name and login function
 #first i will make a frame in which i will put widgets
 
-heading_frame = customtkinter.CTkFrame(master=root, width=900, height=200)
+heading_frame = customtkinter.CTkFrame(master=root, width=1100, height=500)
 #now i will make a Username and Password entryboxes
 
 enter_username= customtkinter.CTkEntry(heading_frame,
@@ -364,8 +318,8 @@ headingLabel= customtkinter.CTkLabel(heading_frame ,text='KAMAL PAINT PORTAL',
   #                   Main frame   
   
 details_frame = customtkinter.CTkFrame(master=root,
-width=200, 
-height=200)
+width=10, 
+height=10)
   
   #as you can see master of details_frame is root which is main main window
   
@@ -474,12 +428,16 @@ print_bill_button = customtkinter.CTkButton(details_frame, text ="Print Bill",
 
 #now i will create a cart frame in which i will have a label cart and a listbox that i imported in starting
 
-cart_frame = customtkinter.CTkFrame(master=root, width=200, height=200)
+cart_frame = customtkinter.CTkFrame(master=root,
+  width=5,
+  height=5,
+)
 
 
-cart_label = customtkinter.CTkLabel(root,
+cart_label = customtkinter.CTkLabel(cart_frame,
     text ="Cart",
-    font=("helvetica",19))
+    font=('times new roman',30,'bold'),
+  text_color='yellow',)
     
     
 cart_listbox = CTkListbox(cart_frame,
@@ -493,22 +451,21 @@ cart_listbox = CTkListbox(cart_frame,
     
     
 
-bill_frame = customtkinter.CTkFrame(master=root, width=200, height=200)
+bill_frame = customtkinter.CTkFrame(master=root, width=200, height=50)
 
-
-bill_label = customtkinter.CTkLabel(root,
-    text ="Bill",
-    font=("helvetica",19))
     
-
-bill_text_box = customtkinter.CTkTextbox(master=bill_frame)
+bill_label = customtkinter.CTkLabel(bill_frame,
+    text ="Bill",
+    font=('times new roman',30,'bold'),
+  text_color='yellow',)
+    
 
 
 
 #here i created an  another frame for 3 button clear cart,save and 'exit'
 
 cse_button_frame = customtkinter.CTkFrame(master=root, 
-width=200,
+width=100,
 height=200)
 
 
@@ -545,32 +502,18 @@ exit_button = customtkinter.CTkButton(cse_button_frame, text ="Exit",
     command=exit_program)
 
 
-<<<<<<< HEAD
-#total button
-total_button = customtkinter.CTkButton(root, text ="Total",
-    width =120,
-    height =60,
-    font=("helvetica",19),
-    text_color="black",
-    fg_color="yellow",
-    hover_color="#c2b84e",
-    corner_radius=200)
-
-
-=======
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
 
 
 
 # Creating a grid for the widgets and frames
 
 #firt i will make columns and rows with .configure
-root.columnconfigure(0,weight =1)
-root.columnconfigure(1,weight =1)
-root.columnconfigure(2,weight =2)
-root.rowconfigure(0,weight =1)
-root.rowconfigure(1,weight =3)
-root.rowconfigure(2,weight =1)
+root.columnconfigure(0,weight =1,uniform="a")
+root.columnconfigure(1,weight =1,uniform="a")
+root.columnconfigure(2,weight =1,uniform="a")
+root.rowconfigure(0,weight =1,uniform="a")
+root.rowconfigure(1,weight =2,uniform="a")
+root.rowconfigure(2,weight =1,uniform="a")
 
 #giving weight is neccessary,weight means the size of the particular column
 
@@ -579,29 +522,29 @@ root.rowconfigure(2,weight =1)
 #first i will grid the frames then widgets in them
 #columnspan means how much columns our widgets will take
 #sticky means direction
-heading_frame.grid(column=0 ,row=0, columnspan=2, sticky=tkinter.W)
-details_frame.grid(column=0 ,row=1, sticky=tkinter.NSEW)
-cart_frame.grid(column=1 ,row=1, sticky=tkinter.NSEW)
-bill_frame.grid(column=2 ,row=1, sticky=tkinter.NSEW)
-cse_button_frame.grid(column=1 ,row=2, columnspan=2, sticky=tkinter.NSEW)
+heading_frame.grid(column=0 ,row=0,columnspan=3, sticky=tkinter.NSEW, padx=5,pady=5)
+details_frame.grid(column=0 ,row=1,rowspan=2, sticky=tkinter.NSEW, padx=5,pady=5)
+cart_frame.grid(column=1 ,row=1, sticky=tkinter.NSEW,padx=75,pady=20)
+bill_frame.grid(column=2 ,row=1, sticky=tkinter.NSEW, padx=75,pady=20)
+cse_button_frame.grid(column=1 ,row=2,columnspan=2, sticky=tkinter.NSEW,padx=5,pady=5)
 
 #now i will place widgets in frames with same grid method
 
 #this time I will use the frame name instead of root
 
-heading_frame.columnconfigure(0,weight =3)
-heading_frame.columnconfigure(1,weight =1)
-heading_frame.columnconfigure(2,weight =1)
-heading_frame.columnconfigure(3,weight =1)
+heading_frame.columnconfigure(0,weight =3,)
+heading_frame.columnconfigure(1,weight =1,)
+heading_frame.columnconfigure(2,weight =1,)
+heading_frame.columnconfigure(3,weight =1,)
 heading_frame.rowconfigure(0,weight =1)
 
-headingLabel.grid(row=0, column=0, sticky=tkinter.NW)
+headingLabel.grid(row=0, column=0,padx=5, sticky=tkinter.EW)
 
-enter_username.grid(row=0, column=1,)
+enter_username.grid(row=0, column=2,padx=5)
 
-enter_password.grid(row=0, column=2,)
+enter_password.grid(row=0, column=3,padx=5)
 
-login_button.grid(row=0, column=3,)
+login_button.grid(row=0, column=4,padx=5)
 
 #-------------heading frame done------------------
 
@@ -611,18 +554,18 @@ login_button.grid(row=0, column=3,)
 
 #here first I will make four rows and two column in my details frame
 
-details_frame.rowconfigure(0,weight =1)
-details_frame.rowconfigure(1,weight =1)
-details_frame.rowconfigure(2,weight =1)
-details_frame.rowconfigure(3,weight =1)
-details_frame.columnconfigure(0,weight =1)
-details_frame.columnconfigure(1,weight =1)
+details_frame.rowconfigure(0,weight =1,uniform="a")
+details_frame.rowconfigure(1,weight =1,uniform="a")
+details_frame.rowconfigure(2,weight =1,uniform="a")
+details_frame.rowconfigure(3,weight =1,uniform="a")
+details_frame.columnconfigure(0,weight =1,uniform="a")
+details_frame.columnconfigure(1,weight =1,uniform="a")
 
 #now i will place widgets in details frame
 #putting widgets in order detail frame
 
-order_detail_frame.grid(row=0, column=0,)
-customer_detail_frame.grid(row=2, column=0,)
+order_detail_frame.grid(row=0, column=0, columnspan=2,pady=10)
+customer_detail_frame.grid(row=2, column=0,columnspan=2)
 
 #configiring  order detail frame
 order_detail_frame.columnconfigure(0,weight =1)
@@ -636,19 +579,19 @@ customer_detail_frame.rowconfigure(1, weight=1,)
 
 #griding widgets in order details frame
 
-enter_product.grid(row=1, column=0,)
-enter_quantity.grid(row=2, column=0,)
+enter_product.grid(row=1, column=0,pady=10,padx=6)
+enter_quantity.grid(row=2, column=0,pady=10,padx=6)
 
 #griding button in  details frame
 
-add_to_cart_button.grid(row=3, column=0,)
-total_button.grid(row=3, column=1,)
+add_to_cart_button.grid(row=1, column=0,sticky=E,pady=10,padx=6)
+total_button.grid(row=1, column=1,sticky=W,pady=10,padx=6)
 
 #griding widgets in customer details frame
-customer_name.grid(row=0, column=0,)
-customer_number.grid(row=1, column=0,)
+customer_name.grid(row=0, column=0,pady=10,padx=6)
+customer_number.grid(row=1, column=0,pady=10,padx=6)
 #griding button in customer details frame
-print_bill_button.grid(row=2, column=0,)
+print_bill_button.grid(row=3, column=0, columnspan=2)
 #-----------------details frame done------------------
 
 #-----------------now i will work on cart frame----------------------
@@ -669,87 +612,28 @@ cart_listbox.grid(row=1, column=0,)
 #-----------------now i will work on bill box ------------------
 
 
-#bi
+#bill box done
+
+bill_frame.rowconfigure(0,weight =1,uniform="a")
+bill_frame.rowconfigure(1,weight =5,uniform="a")
+bill_frame.columnconfigure(0,weight =1,uniform="a")
+#now i will place widgets in cart frame
+bill_label.grid(row=0, column=0,)
 
 
+#now i will do in last cse buttons
 
+cse_button_frame.columnconfigure(0,weight=1,uniform="a")
+cse_button_frame.columnconfigure(1,weight=1,uniform="a")
+cse_button_frame.columnconfigure(2,weight=1,uniform="a")
+cse_button_frame.rowconfigure(0,weight=1)
 
+clear_button.grid(row=0, column=0,padx=7, sticky=tkinter.EW)
+save_button.grid(row=0, column=1,padx=7, sticky=tkinter.EW)
 
-<<<<<<< HEAD
-cart_listbox = CTkListbox(root,
-  width=500,
-  height=500,
-  font=("helvetica",24))
-
-
-# Create a grid for the input widgets
-
-root.columnconfigure((1,2,3,4,5,6,7,8,9,),weight=0)
-
-# Place the input widgets in the grid
-enter_product.grid(row=4, column=0, )
-enter_quantity.grid(row=5, column=0, )
-enter_username.grid(row=1, column=2,)
-enter_password.grid(row=1, column=3, )
-
-# Place the buttons in the grid
-add_to_cart_button.grid(row=2, column=3, )
-exit_button.grid(row=3, column=3,)
-total_button.grid(row=4, column=3, )
-login_button.grid(row=5, column=3, )
-print_bill_button.grid(row=6, column=3, )
-history_button.grid(row=7, column=3,)
-cart_listbox.grid(row=5, column=4, )
-headingLabel.grid(row=1, column=0 ,)
-# ...
+exit_button.grid(row=0, column=2,padx=7, sticky=tkinter.EW)
 
 # Start the main loop
 
-
-
-
-
-
-
-
-
-# -------------------------ADMIN WINDOW----------------------------
-
-
-# exit_button = customtkinter.CTkButton(admin, text ="Exit",
-#     width =120,
-#     height =60,
-#     font=("helvetica",19),
-#     text_color="black",
-#     fg_color="yellow",
-#     hover_color="#c2b84e",
-#     corner_radius=200,
-#     command=exit_program)
-
-
-
-# enter_quantity = customtkinter.CTkEntry(admin,
-#     placeholder_text= "Enter Quantity",
-#     width=500,
-#     height=60,
-#     font=("helvetica",24),
-#     text_color="#F5DD90",
-#     placeholder_text_color="yellow",
-#     corner_radius=200)
-
-
-
-
-
-
-
-
-=======
-
-
-
-# Start the main loop
-
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
 root.mainloop()
 #lets make a function that will show output from entry box when i click button
