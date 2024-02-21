@@ -1,74 +1,348 @@
-import tkinter as tk
-from tkinter import messagebox
+from tkinter import *
+import customtkinter
+from PIL import Image
+from customtkinter import *
+from CTkMessagebox import CTkMessagebox
+from CTkListbox import *
+import pandas as pd
+import xlrd
+import datetime
 
-# Placeholder for storing added products (you can replace this with your own data structure)
-added_products = []
+# df = pd.read_excel('data/products.xlsx')
+bill_amount = 0
+#images
+img = customtkinter.CTkImage(Image.open('images/logo1.png'),size=(170,170))
 
-def add_product():
-    # Get the product name and price from the entry fields
-    product_name = entry_product.get()
-    product_price = entry_price.get()
 
-    # Add the product to the list (you can customize this part)
-    added_products.append((product_name, float(product_price)))
 
-    # Update the listbox display
-    listbox_products.insert(tk.END, product_name)
-    # Update the listbox display
-    listbox_products.insert(tk.END, product_name)
-    listbox_products.insert(tk.END , f"Price: ${product_price}")
 
-    # Example: Display a message box with the added product
-    messagebox.showinfo("Product Added", f"Product '{product_name}' added successfully!")
+# Set the appearance of the custom Tkinter to dark
+customtkinter.set_appearance_mode("dark")
+customtkinter.set_default_color_theme("dark-blue")  
+# Themes: "blue" (standard), "green", "dark-blue"
 
-def generate_bill():
-    # Calculate the total amount based on added products
-    total_amount = sum(price for _, price in added_products)
-    label_total.config(text=f"Total Amount: ${total_amount:.2f}")
+# now i will Create the main window (root)
+root = customtkinter.CTk()
 
-def clear_cart():
-    # Clear the list of added products
-    added_products.clear()
-    listbox_products.delete(0, tk.END)
-    label_total.config(text="Total Amount: $0.00")
+#here i am taking the size of the screenof the user with .winfo_screenwidth() and .winfo_screenheight()
 
-root = tk.Tk()
-root.title("Color Shop POS System")
-root.geometry("1100x700")
+width= root.winfo_screenwidth() 
+height=root.winfo_screenheight()
 
-# Create entry fields for product input
-label_product = tk.Label(root, text="Enter Product:")
-entry_product = tk.Entry(root)
 
-label_price = tk.Label(root, text="Enter Price:")
-entry_price = tk.Entry(root)
 
-# Create buttons
-button_add = tk.Button(root, text="Add Product", command=add_product)
-button_generate_bill = tk.Button(root, text="Generate Bill", command=generate_bill)
-button_clear_cart = tk.Button(root, text="Clear Cart", command=clear_cart)
+# now I will use .geometry to set a size of the window and
+#I will give the width and height variable as arguments
 
-# Create a listbox to display added products
-listbox_products = tk.Listbox(aroot, selectmode=tk.SINGLE, height=10, width=40)
-listbox_bill = tk.Listbox(root, selectmode=tk.SINGLE, height=16, width=40)
+root.geometry("%dx%d" % (width, height))
 
-# Create a label for displaying the total amount
-label_total = tk.Label(root, text="Total Amount: $0.00")
 
-# Arrange the widgets
-label_product.grid(row=0, column=0, padx=10, pady=10)
-entry_product.grid(row=0, column=1, padx=10, pady=10)
+#now I will set the title of the window
 
-label_price.grid(row=1, column=0, padx=10, pady=10)
-entry_price.grid(row=1, column=1, padx=10, pady=10)
+root.title('POS System')
 
-button_add.grid(row=2, column=0, padx=10, pady=10)
-button_generate_bill.grid(row=2, column=1, padx=10, pady=10)
-button_clear_cart.grid(row=9, column=2, padx=10, pady=10)
 
-listbox_products.grid(row=3, column=2, columnspan=3, padx=20, pady=10)
-listbox_bill.grid(row=3, column=2, columnspan=4, padx=10, pady=10)
+# Add an icon to the window (uncomment and provide the correct path to your icon file)
+#root.iconbitmap("images/logo1.ico")
 
-label_total.grid(row=4, column=2, columnspan=3, padx=10, pady=10)
+#creating the first function
+
+# Define the function for the add to cart button
+
+def add_to_cart():
+  
+#first we will we will take product and quantity from the entry boxes with .get
+  product = enter_product.get()
+  quantity = enter_quantity.get()
+  #now I will read the data from our Excel file using Panda module I imported
+  available_products=pd.read_excel('data/products.xlsx')
+  print (available_products)
+  
+  #now I will locate the name data frame from my excel file by using .df lock
+  
+  row = df.loc[df['name'] == product]
+  
+  #as you can see I took the name of the product from the entry box and I used .loc to locate the row of that product in my excel file
+
+  #now I will use the if not condition to check if product is found or not
+  
+  if not row.empty:
+    
+    #now I will get the product price in the quantity from the XL file
+    
+    price = row["price"].item
+    stock = row["stock"].item
+    
+    #now I will check if the stock is greater than the quantity
+    if stock >= quantity:
+      
+      #now I will add the detailed of the product and the quantity and price into the list box I have created later in this code
+      
+      cart_listbox.insert(customtkinter.END,f"{product} - Quantity: {quantity} - Price: {price}Rs")
+      
+   #now I will update the bill amount by adding price multipied by the quantity
+      
+      bill_amount += price * quantity
+      bill_label.cofigure(text=f"Bill Amount: {bill_amount}Rs")
+      
+  #now I will update the stock by subtracting the quantity from the stock
+
+      df.loc[df["name"]==product, "stock"] -quantity
+      df.to_excel("data/products.xlsx",
+        index = False)
+
+      #now I will show the error if quantity is not available
+
+    else:
+      CTkMessagebox(title="error",message="Quantity not available", icon="warning")
+        
+  #creating and another error if the product is not found
+  
+  else:
+    CTkMessagebox(title="error",message="Product not found", icon="warning")
+
+#function to exit program connected to exit button
+
+def exit_program():
+    # Show some retry/cancel warnings
+    msg = CTkMessagebox(master=root,
+      title="Are You Sure!",
+    message="Do you want exit?",
+    icon="warning",
+    option_1="Yes",
+    option_2= "No")
+    yes_or_no = msg.get()
+    if yes_or_no == "Yes":
+        root.destroy()
+    else:
+        print("press yes to exit")
+
+
+def calculate_total():
+
+   return 
+
+
+
+def login():
+  username = enter_username.get()
+  password = enter_password.get()
+  if username == "admin" and password == "admin":
+    admin = customtkinter.CTkToplevel()
+    admin.geometry("1200x550")
+    admin.title("Admin Page")
+
+  elif username == "" and password == "":
+    CTkMessagebox(title="Error", message="Please enter username and password", icon="warning")
+
+
+  elif username == "":
+    CTkMessagebox(title="Error", message="Please enter username", icon="warning")
+
+  elif password == "":
+    CTkMessagebox(title="Error", message="Please enter password", icon="warning")
+
+  else:
+    CTkMessagebox(title="Error", message="Invalid username or password", icon="warning")
+
+
+
+
+def print_bill():
+  print()
+
+
+
+
+
+
+def show_history():
+  return
+
+
+# lets make buttons
+
+#add to cart button
+add_to_cart_button = customtkinter.CTkButton(root,
+    text ="add to cart",
+    width =120,   # change width of button
+    height =60,  # change height of button
+    font=("helvetica",19),  # Change font of button
+    text_color="black",  #  Change color of button
+    fg_color="yellow",  # Change color of button foreground
+    hover_color="#c2b84e",  #   Change color of when mouse hovers
+    corner_radius=200,#    change corner raduis of button
+    command=add_to_cart ) #and now we will add function to our button by calling def function
+
+#exit button
+exit_button = customtkinter.CTkButton(root, text ="Exit",
+    width =120,
+    height =60,
+    font=("helvetica",19),
+    text_color="black",
+    fg_color="yellow",
+    hover_color="#c2b84e",
+    corner_radius=200,
+    command=exit_program)
+
+
+#total button
+total_button = customtkinter.CTkButton(root, text ="Total",
+    width =120,
+    height =60,
+    font=("helvetica",19),
+    text_color="black",
+    fg_color="yellow",
+    hover_color="#c2b84e",
+    corner_radius=200)
+
+
+
+
+
+
+#login button
+login_button = customtkinter.CTkButton(root, text ="Login",
+    width =120,
+    height =60,
+    font=("helvetica",19),
+    text_color="black",
+    fg_color="yellow",
+    hover_color="#c2b84e",
+    corner_radius=200,
+    command=login)
+
+
+#print button
+print_bill_button = customtkinter.CTkButton(root, text ="Print Bill",
+    width =120,
+    height =60,
+    font=("helvetica",19),
+    text_color="black",
+    fg_color="yellow",
+    hover_color="#c2b84e",
+    corner_radius=200 )
+
+#history buttons
+history_button = customtkinter.CTkButton(root, text ="History",
+    width =120,
+    height =60,
+    font=("helvetica",19),
+    text_color="#1B1B1E",
+    fg_color="yellow",
+    hover_color="#c2b84e",
+    corner_radius=200)
+
+
+
+#we use .CTkEntry to make entrybox
+#product box
+enter_product = customtkinter.CTkEntry(root,
+    placeholder_text= "Enter product",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="#F5DD90",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+
+#Quantity box
+enter_quantity = customtkinter.CTkEntry(root,
+    placeholder_text= "Enter Quantity",
+    width=500,
+    height=60,
+    font=("helvetica",24),
+    text_color="#F5DD90",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+
+#password box
+enter_password = customtkinter.CTkEntry(root,
+    placeholder_text= "Enter Password",
+    width=460,
+    height=60,
+    font=("helvetica",24),
+    text_color="#F5DD90",
+    placeholder_text_color="yellow",
+    corner_radius=200)
+
+
+#Username box
+enter_username= customtkinter.CTkEntry(root,
+    placeholder_text= "Enter Username",
+    width=460,
+    height=60,
+    font=("helvetica",24),
+    text_color="#F5DD90",
+    placeholder_text_color="yellow",
+    corner_radius=200,)
+
+
+
+
+#using.CTklabels function
+#my input from entry box will fo here
+product_label = customtkinter.CTkLabel(root,
+    text ="",
+    font=("helvetica",19))
+
+price_label = customtkinter.CTkLabel(root,
+    text ="",
+    font=("helvetica",19))
+
+login_label = customtkinter.CTkLabel(root,
+    text ="",
+    font=("helvetica",19))
+
+password_label = customtkinter.CTkLabel(root,
+    text ="",
+    font=("helvetica",19))
+
+bill_label = customtkinter.CTkLabel(root,
+    text ="",
+    font=("helvetica",19))
+
+headingLabel= customtkinter.CTkLabel(root ,text='KAMAL PAINT PORTAL',
+  font=('times new roman',50,'bold'),
+  text_color='yellow',
+  image=img,
+  compound=LEFT)
+
+
+
+
+
+cart_listbox = CTkListbox(root,
+  width=500,
+  height=500,
+  font=("helvetica",24))
+
+# Create a grid for the input widgets
+root.rowconfigure((0, 1, 2), weight=1)
+root.columnconfigure((0, 1), weight=1)
+
+# Place the input widgets in the grid
+enter_product.grid(row=0, column=0, padx=5, pady=5)
+enter_quantity.grid(row=1, column=0, padx=5, pady=5)
+enter_username.grid(row=0, column=1, padx=5, pady=5)
+enter_password.grid(row=1, column=1, padx=5, pady=5)
+
+# Create a grid for the buttons
+root.rowconfigure((3, 4), weight=1)
+root.columnconfigure((2, 3, 4, 5, 6), weight=1)
+
+# Place the buttons in the grid
+add_to_cart_button.grid(row=3, column=3, padx=5, pady=5)
+exit_button.grid(row=3, column=4, padx=5, pady=5)
+total_button.grid(row=4, column=3, padx=5, pady=5)
+login_button.grid(row=3, column=5, padx=5, pady=5)
+print_bill_button.grid(row=4, column=4, padx=5, pady=5)
+history_button.grid(row=4, column=3, padx=5, pady=5)
+cart_listbox.grid(row=3, column=6, rowspan=2, padx=5, pady=5)
+headingLabel.grid(row=0, column=0, columnspan=2, padx=5, pady=5)
+# Start the main loop
+
+
 
 root.mainloop()
+#lets make a function that will show output from entry box when i click button
