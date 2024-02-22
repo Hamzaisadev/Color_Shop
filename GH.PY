@@ -60,7 +60,7 @@ root.title('POS System')
 def add_to_cart():
 
  #first we will we will take product and quantity from the entry boxes with .get
-  product = enter_product.get()
+  product = enter_product.get().strip()
   quantity = int (enter_quantity.get())
 
 # I will give a path where my product file is
@@ -68,25 +68,27 @@ def add_to_cart():
 
   #first I will open the Excel file with. open    xlrd open_workbook()
   
-  workbook=openpyxl.open_workbook(path)
+  workbook=openpyxl.load_workbook(path)
   
   #now I will select the sheet I want to use with .sheet_by_name
   
-  sheet= workbook.sheet_by_index(0)
+  sheet= workbook.active
   
   #now I will loop through the rows of the sheet and add the data to the dictionary
   
-  for row in range(1,sheet.nrow):
+  for row in sheet.iter_rows():
+    
   
     #now I will get the product name price and quantity from the excel file
   
-    product_name = sheet.cell_value(row,0)
-    product_stock =sheet.cell_value(row,1)
-    product_price =sheet.cell_value(row,2)
+    product_name =row[0].value
+    product_price =row[1].value
+    product_stock =row[2].value
+    
     
     #here i will use if conditíons to check the product
     
-    if product == product_price:
+    if product == product_name:
       
       # now will check if product stock is available
       
@@ -100,27 +102,29 @@ def add_to_cart():
         #now I will format the product detail as a string
         product_details=f"{product_name} × {quantity} × {product_price} = {total_price}"
         #now I will add this formatted string into my cart list box
-        cart_listbox.insert("END",product_details)
+        cart_listbox.insert("end",product_details)
         #now I will update the stock in my excel file
         sheet.cell_value(row, 2,product_stock - quantity)
         #now I will save the changes in my excel file and break the loop
         workbook.save(workbook)
+        
+        cart_listbox.insert("end", product_details)
         #using .delete to delete text from entry boxes
-        enter_product.delete(0, "END")
-        enter_quantity.delete(0, "END")
+        enter_product.delete(0, "end")
+        enter_quantity.delete(0, "end")
         break
     #give same code by using now I will create an else statement that will show an error if product stock is not enough
     #using CTkMessagebox module i imported to show an error
     else:
       CTkMessagebox(title="Error", message="Product is out of stock", icon="warning")
-      enter_product.delete(0, "END")
-      enter_quantity.delete(0, "END")
+      enter_product.delete(0, "end")
+      enter_quantity.delete(0, "end")
       break
   else:
     #Error when Product is not found
     CTkMessagebox(title="Error", message="Product Not Found", icon="warning")
-    enter_product.delete(0, "END")
-    enter_quantity.delete(0, "END")
+    enter_product.delete(0, "end")
+    enter_quantity.delete(0, "end")
       
 #Add to cart function done----------------------
 
@@ -186,13 +190,49 @@ def login():
     #thank to stackoverflow i found this command
     admin.wm_transient(root)
 
+#now I WILL configured the rows and columns in my admin window
+    admin.columnconfigure(0,weight =1,uniform="a")
+    admin.columnconfigure(1,weight =3,uniform="a")
+    admin.columnconfigure(2,weight =1,uniform="a")
+    admin.rowconfigure(0,weight =1,uniform="a")
+    admin.rowconfigure(1,weight =5,uniform="a")
 
-  #first i will create the main frames in admin window
+
+
+  #first i will create the admin heading frame in admin window
 
     admin_heading_frame = customtkinter.CTkFrame(admin, width=100, height=100)
-    product_add_frame = customtkinter.CTkFrame(admin, width=100, height=100)
-    exel_file_frame = customtkinter.CTkFrame(admin, width=100, height=100)
+     #now i will place the heading frame with grid
+    admin_heading_frame.grid(row=0, column=0, columnspan=3,padx=5, sticky=tkinter.EW)
+     
+     #now i will give rows and columns to  the admin heading frame
+     
+    admin_heading_frame.columnconfigure(1,weight =1,uniform="a")
+    admin_heading_frame.rowconfigure(1,weight =1,uniform="a")
+    
+    admin_heading_Label= customtkinter.CTkLabel(admin_heading_frame ,text='HELLO ADMIN',
+      font=('times new roman',50,'bold'),
+      text_color='yellow',
+      image=img, # i imported this img at the start of the code
+      compound=LEFT)
+    
+    
+    admin_heading_Label.grid(row=0, column=0, columnspan=2,padx=5, sticky=tkinter.EW)
 
+    
+    
+    
+    
+    
+    product_add_frame = customtkinter.CTkFrame(admin, width=550, height=400)
+    
+    # placing my frames in admin window with .grid
+
+    product_add_frame.grid(row=1, column=0, columnspan=1,padx=5, sticky=tkinter.NSEW)
+    
+
+    
+    
 #now I will create entry boxes and buttons
     #buttons
     save_product = customtkinter.CTkButton(product_add_frame, text ="Save Product",
@@ -239,53 +279,40 @@ def login():
       text_color="#F5DD90",
       placeholder_text_color="yellow",
       corner_radius=200)
+    
+    
+    
+    # placing the widgets in the product_add_frame
+    enter_product_name.place
+    enter_product_price.place
+    enter_product_quantity.place
+    save_product.pack
+    
+    exel_file_frame = customtkinter.CTkFrame(admin, width=100, height=100)
 
 
-    admin_heading_Label= customtkinter.CTkLabel(admin_heading_frame ,text='HELLO ADMIN',
-      font=('times new roman',50,'bold'),
-      text_color='yellow',
-      image=img, # i imported this img at the start of the code
-      compound=LEFT)
 
 
-    #now I have configured the rows and columns in my admin window
 
-    admin.columnconfigure(0,weight =1,uniform="a")
-    admin.columnconfigure(1,weight =4,uniform="a")
-    admin.rowconfigure(0,weight =1,uniform="a")
-    admin.rowconfigure(1,weight =5,uniform="a")
+
+
+
 
     
-    # placing my frames in admin window with .grid
 
     
-    admin_heading_frame.grid(row=0, column=0, columnspan=2,padx=5, sticky=tkinter.EW)
-    product_add_frame.grid(row=1, column=0,padx=5, sticky=tkinter.NSEW)
+
+    
     
     # this excel file frame will contain my excel file and show it in my admin window
     
     exel_file_frame.grid(row=1, column=1,padx=5, sticky=tkinter.NSEW)
 
-    admin_heading_frame.columnconfigure(1,weight =5,uniform="a")
-    admin_heading_Label.grid(row=0, column=0, columnspan=2,padx=5, sticky=tkinter.EW)
 
-    #now configuring my frames to have rows and columns 
-# configuring product add frame
-    product_add_frame.columnconfigure(0 ,weight= 1)
-    product_add_frame.columnconfigure(1 ,weight= 1)
-    product_add_frame.rowconfigure(0,weight= 1)
-    product_add_frame.rowconfigure(1,weight= 1)
-    product_add_frame.rowconfigure(2 ,weight= 1)
-    product_add_frame.rowconfigure(3 ,weight= 1)
+ 
 
 
-    # now putting buttons and entry boxes in product add frames
-
-    
-    enter_product_name.grid(row=0 ,column=0,columnspan=1,padx=5)
-    enter_product_price.grid(row=1 ,column=0,columnspan=1,padx=5)
-    enter_product_quantity.grid(row=2 ,column=0,columnspan=1,padx=5)
-    save_product.grid(row=3 ,column=0,padx=5)    
+  # setting up the function that will run when the save button is clicked
     
     # configuring excel file frame
     

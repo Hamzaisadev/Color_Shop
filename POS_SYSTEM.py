@@ -201,7 +201,7 @@ def login():
     
     enter_product_price = customtkinter.CTkEntry(product_add_frame,
       placeholder_text= "Enter Product Price",
-      width=500,
+      width=60,
       height=60,
       font=("helvetica",24),
       text_color="#F5DD90",
@@ -220,12 +220,25 @@ def login():
     admin_heading_frame.columnconfigure(1,weight =5,uniform="a")
     admin_heading_Label.grid(row=0, column=0, columnspan=2,padx=5, sticky=tkinter.EW)
     
-    
-    product_add_frame
-    exel_file_frame
-    
+        #now configuring my frames to have rows and columns 
+        # configuring product add frame
+    product_add_frame.columnconfigure(0 ,weight= 1,uniform="a")
+    product_add_frame.columnconfigure(1 ,weight= 1,uniform="a")
+    product_add_frame.rowconfigure(0,weight= 1,uniform="a")
+    product_add_frame.rowconfigure(1,weight= 1,uniform="a")
+    product_add_frame.rowconfigure(2 ,weight= 1,uniform="a")
+    product_add_frame.rowconfigure(3 ,weight= 1,uniform="a")
 
     
+
+        # now putting buttons and entry boxes in product add frames
+
+    
+    enter_product_name.grid(row=0, column=0, columnspan=2,padx=5, sticky=tkinter.EW)
+    enter_product_price.grid(row=1 ,column=0,columnspan=1,padx=5)
+    enter_product_quantity.grid(row=2 ,column=0,columnspan=1,padx=5)
+    save_product.grid(row=3 ,column=0,padx=5)    
+
     
     
 
