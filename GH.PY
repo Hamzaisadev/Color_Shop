@@ -6,15 +6,8 @@ from tkinter import ttk
 import customtkinter
 import pandas as pd
 import xlrd
-<<<<<<< HEAD
 import datetime
 
-=======
-from CTkListbox import *
-from CTkMessagebox import CTkMessagebox
-from customtkinter import *
-from PIL import Image
->>>>>>> 33ad2f400a35ba454af1b53b97fa3e662c6c442b
 
 bill_amount = 0
 #images
