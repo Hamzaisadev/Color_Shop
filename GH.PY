@@ -7,7 +7,6 @@ from CTkMessagebox import CTkMessagebox
 from customtkinter import *
 from PIL import Image
 import tkinter 
-import open_excel
 import openpyxl 
 
 
@@ -41,7 +40,7 @@ root = customtkinter.CTk()
 
 root.geometry("1920x1080")
 
-#root.state("zoomed")
+root.state("zoomed")
 
 
 #now I will set the title of the window
@@ -64,9 +63,12 @@ def add_to_cart():
   product = enter_product.get()
   quantity = int (enter_quantity.get())
 
+# I will give a path where my product file is
+  path = "data/products.xlsx"
+
   #first I will open the Excel file with. open    xlrd open_workbook()
   
-  workbook=open_excel.open_workbook("data/products.xlsx")
+  workbook=openpyxl.open_workbook(path)
   
   #now I will select the sheet I want to use with .sheet_by_name
   
@@ -165,7 +167,6 @@ def calculate_total():
   #now i will update the total ammount label
   total_label.configure(text=f"Total: {total_amount}")
 
-  break
 
 #calculate_total function done
 
@@ -293,85 +294,85 @@ def login():
 
 
 
-  # so here I will use TTK frame from TTK module
-  tree_frame =ttk.Frame(exel_file_frame)
-  # will it a grid
-  tree_frame.grid(row=0, column=1, padx=5, pady=5, sticky=tkinter.NSEW)
+    # so here I will use TTK frame from TTK module
+    tree_frame =ttk.Frame(exel_file_frame)
+    # will it a grid
+    tree_frame.grid(row=0, column=1, padx=5, pady=5, sticky=tkinter.NSEW)
 
-  # now I will create a tuple named colm and i will put names of my columns in excel file
-  colm = ("name", "stock", "price")
+    # now I will create a tuple named colm and i will put names of my columns in excel file
+    colm = ("name", "stock", "price")
 
-  #now I will create a treeview with the columns i created
+    #now I will create a treeview with the columns i created
 
-  tree_view = ttk.Treeview(tree_frame, columns=colm, show="headings")
-  
-  # now i will pack it
-  
-  tree_view.pack(side="left", fill="both", expand=True)
-  
-
-
-  # now I will use openpyxl modular imported before
-
-    # now I will make a function to load data
-  def load_data():
-  # I will give a path where my product file is
-    path = "data/products.xlsx"
-  #now I will open the file with openpyxl module
-    workbook = openpyxl.load_workbook(path)
-  #now I will select the sheet I want to use
-  sheet= workbook.active
-
-  # now I will create a list with tuples of all the data
-
-  list_values = list(sheet.values)
-  #now I will loop through the list and add the data to the treeview
-  for col_name in list_values[0]:
-  # now I will specify the name of my heading in my tree view
-    tree_view.heading(col_name, text=col_name)
-  
-  # now I will loop through the list values and add the data to the treeview
-
-  for value_tuple in list_values[1:]:
-    tree_view.insert("", tk.END, values=value_tuple)
-  
-  
-
-
-    # let's add two nested functions
-
-  def save_product():
+    tree_view = ttk.Treeview(tree_frame, columns=colm, show="headings")
     
-    #first we will get the product name, quantity and price from the entry boxes
-    product_name = enter_product_name.get()
-    product_stock = enter_product_quantity.get()
-    product_price = enter_product_price.get()
+    # now i will pack it
+    
+    tree_view.pack(side="left", fill="both", expand=True)
+    
 
-  # now I will load the excel file same as  I did before in load data function
 
-  # right now I am inserting data into Excel sheet
-  path = "data/products.xlsx"
-  workbook = openpyxl.load_workbook(path)
-  #now I will select the sheet I want to use
-  sheet= workbook.active
+    # now I will use openpyxl modular imported before
 
-  # I will give the row values
-  row_values =["name", "stock",'price']
-  
-  # now I will append these ROws into sheets
+      # now I will make a function to load data
+    def load_data():
+    # I will give a path where my product file is
+      path = "data/products.xlsx"
+    #now I will open the file with openpyxl module
+      workbook = openpyxl.load_workbook(path)
+    #now I will select the sheet I want to use
+    sheet= workbook.active
 
-  sheet.append(row_values)
-  # now I will save the workbook
-  workbook.save(path)
+    # now I will create a list with tuples of all the data
 
-  # adding this data into tree view
+    list_values = list(sheet.values)
+    #now I will loop through the list and add the data to the treeview
+    for col_name in list_values[0]:
+    # now I will specify the name of my heading in my tree view
+      tree_view.heading(col_name, text=col_name)
+    
+    # now I will loop through the list values and add the data to the treeview
 
-  tree_view.insert("", tk.END, values=row_values)
-  
-               
-    # now I will delete the entry box text
+    for value_tuple in list_values[1:]:
+      tree_view.insert("", tkinter.END, values=value_tuple)
+    
+    
 
-  
+
+      # let's add two nested functions
+
+    def save_product():
+      
+      #first we will get the product name, quantity and price from the entry boxes
+      product_name = enter_product_name.get()
+      product_stock = enter_product_quantity.get()
+      product_price = enter_product_price.get()
+
+    # now I will load the excel file same as  I did before in load data function
+
+    # right now I am inserting data into Excel sheet
+    path = "data/products.xlsx"
+    workbook = openpyxl.load_workbook(path)
+    #now I will select the sheet I want to use
+    sheet= workbook.active
+
+    # I will give the row values
+    row_values =["name", "stock",'price']
+    
+    # now I will append these ROws into sheets
+
+    sheet.append(row_values)
+    # now I will save the workbook
+    workbook.save(path)
+
+    # adding this data into tree view
+
+    tree_view.insert("", tkinter.END, values=row_values)
+    
+                
+      # now I will delete the entry box text
+
+    
 
 
 
@@ -526,7 +527,8 @@ total_button = customtkinter.CTkButton(details_frame,
     text_color="black",
     fg_color="yellow",
     hover_color="#c2b84e",
-    corner_radius=200)
+    corner_radius=200,
+    command= calculate_total)
 
     #as  you can see i have these buttons in details_frame outside of order_detail_frame
 
@@ -629,9 +631,10 @@ clear_button = customtkinter.CTkButton(cse_button_frame, text ="Clear Cart",
     text_color="#1B1B1E",
     fg_color="yellow",
     hover_color="#c2b84e",
-    corner_radius=200)
+    corner_radius=200,
+    command=clear_cart)
 
-save_button = customtkinter.CTkButton(cse_button_frame, text ="Exit",
+save_button = customtkinter.CTkButton(cse_button_frame, text ="Save",
     width =120,
     height =60,
     font=("helvetica",19),
@@ -639,7 +642,7 @@ save_button = customtkinter.CTkButton(cse_button_frame, text ="Exit",
     fg_color="yellow",
     hover_color="#c2b84e",
     corner_radius=200,
-    command=exit_program)
+    command=save)
 
 
 
@@ -702,4 +705,95 @@ login_button.grid(row=0, column=4,padx=5)
 
 
 
-#-----------------now i w
+#-----------------now i will work on details frame----------------------
+
+#here first I will make four rows and two column in my details frame
+
+details_frame.rowconfigure(0,weight =1,uniform="a")
+details_frame.rowconfigure(1,weight =1,uniform="a")
+details_frame.rowconfigure(2,weight =1,uniform="a")
+details_frame.rowconfigure(3,weight =1,uniform="a")
+details_frame.columnconfigure(0,weight =1,uniform="a")
+details_frame.columnconfigure(1,weight =1,uniform="a")
+
+#now i will place widgets in details frame
+#putting widgets in order detail frame
+
+order_detail_frame.grid(row=0, column=0, columnspan=2,pady=10)
+customer_detail_frame.grid(row=2, column=0,columnspan=2)
+
+#configiring  order detail frame
+order_detail_frame.columnconfigure(0,weight =1)
+order_detail_frame.rowconfigure(0,weight =1)
+order_detail_frame.rowconfigure(1,weight =1)
+
+#configuring customer detail frame
+customer_detail_frame.columnconfigure(0, weight=1,)
+customer_detail_frame.rowconfigure(0, weight=1,)
+customer_detail_frame.rowconfigure(1, weight=1,)
+
+#griding widgets in order details frame
+
+enter_product.grid(row=1, column=0,pady=10,padx=6)
+enter_quantity.grid(row=2, column=0,pady=10,padx=6)
+
+#griding button in  details frame
+
+add_to_cart_button.grid(row=1, column=0,sticky=E,pady=10,padx=6)
+total_button.grid(row=1, column=1,sticky=W,pady=10,padx=6)
+
+#griding widgets in customer details frame
+customer_name.grid(row=0, column=0,pady=10,padx=6)
+customer_number.grid(row=1, column=0,pady=10,padx=6)
+#griding button in customer details frame
+print_bill_button.grid(row=3, column=0, columnspan=2)
+#-----------------details frame done------------------
+
+#-----------------now i will work on cart frame----------------------
+
+#first i will make two rows and one columns in my cart frame
+cart_frame.rowconfigure(0,weight =1)
+cart_frame.rowconfigure(1,weight =5)
+cart_frame.rowconfigure(2,weight =5)
+cart_frame.columnconfigure(0,weight =1)
+#now i will place widgets in cart frame
+cart_label.grid(row=0, column=0,)
+cart_listbox.grid(row=1, column=0,)
+bill_label.grid(row=2, column=0,)
+
+
+
+#-----------------cart frame done------------------
+
+
+#-----------------now i will work on bill box ------------------
+
+
+#bill box done
+
+bill_frame.rowconfigure(0,weight =1,uniform="a")
+bill_frame.rowconfigure(1,weight =5,uniform="a")
+bill_frame.columnconfigure(0,weight =1,uniform="a")
+#now i will place widgets in cart frame
+bill_label.grid(row=0, column=0,)
+
+
+#now i will do in last cse buttons
+
+cse_button_frame.columnconfigure(0,weight=1,uniform="a")
+cse_button_frame.columnconfigure(1,weight=1,uniform="a")
+cse_button_frame.columnconfigure(2,weight=1,uniform="a")
+cse_button_frame.rowconfigure(0,weight=1)
+
+clear_button.grid(row=0, column=0,padx=7, sticky=tkinter.EW)
+save_button.grid(row=0, column=1,padx=7, sticky=tkinter.EW)
+
+exit_button.grid(row=0, column=2,padx=7, sticky=tkinter.EW)
+
+# Start the main loop
+
+root.mainloop()
+#lets make a function that will show output from entry box when i click button
+
+
+
