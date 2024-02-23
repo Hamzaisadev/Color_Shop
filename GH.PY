@@ -196,7 +196,7 @@ def login():
   password = enter_password.get()
   
   #now I will check if the username and password are correct
-  if username == "" and password == "":
+  if username == "admin" and password == "admin":
     #if correct creating a new top level window  in root window with argument root
     admin = customtkinter.CTkToplevel(root)
     
@@ -444,7 +444,7 @@ def login():
       sheet = workbook.active
   
       # I will give the row values
-      row_values =["name", "stock",'price']
+      row_values =["name", "price",'stock']
 
       # now I will append these ROws into sheets
   
@@ -457,7 +457,7 @@ def login():
       tree_view.insert("", tkinter.END, values=row_values)
 
 
-      # now I will delete the entry box text
+      #now i will create save button
 
 
 
