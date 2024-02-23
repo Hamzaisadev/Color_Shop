@@ -7,8 +7,7 @@ from CTkMessagebox import CTkMessagebox
 from customtkinter import *
 from PIL import Image
 import tkinter 
-import openpyxl 
-from openpyxl import Workbook
+import openpyxl
 import datetime
 
 
@@ -100,7 +99,7 @@ def add_to_cart():
         total_price = product_price * quantity
 
         #now I will format the product detail as a string
-        product_details=f"{product_name} × {quantity} × {product_price} = {total_price}"
+        product_details=f"{product_name}            ×            {quantity}             ×          {product_price}               =                     {total_price}"
         #now I will add this formatted string into my cart list box
         cart_listbox.insert("end",product_details)
         #now I will update the stock in my excel file
@@ -117,11 +116,23 @@ def add_to_cart():
     #using CTkMessagebox module i imported to show an error
     
     
-    else:
-      CTkMessagebox(title="Error", message="Product is out of stock", icon="warning")
+      else:
+        CTkMessagebox(title="Error", message="Product is out of stock", icon="warning")
       enter_product.delete(0, "end")
       enter_quantity.delete(0, "end")
       break
+    
+    elif product == "" and quantity == "":
+      CTkMessagebox(title="Error", message="Please enter Product Name and password", icon="warning")
+
+
+    elif product == "":
+      CTkMessagebox(title="Error", message="Please enter Product Name", icon="warning")
+
+    elif quantity == "":
+      CTkMessagebox(title="Error", message="Please enter Quantity", icon="warning")
+    
+    
   else:
     #Error when Product is not found
     CTkMessagebox(title="Error", message="Product Not Found", icon="warning")
@@ -160,18 +171,18 @@ def calculate_total():
   #first make a total amount var and gave it 0 
   total_amount = 0 
   #now i will loop through the cart
-  for item in cart_listbox.get(0,"END"):
+  for item in cart_listbox.get(0, 3):
 
     #where I will create a variable called item parts and I will use items dot split to convert product detail strain into different strings its like it will create an list with different strings
 
-    item_part = item.split()
-    #now I will get the total price from the last part of item part string
-    total_price = int(item_part[-2])
-    #now i will add total price into the total ammount
-    total_amount += total_price
-
-  #now i will update the total ammount label
-  total_label.configure(text=f"Total: {total_amount}")
+    product, price, quantity = item.split()
+        # Convert the price and quantity to float and int respectively
+    price = float(price)
+    quantity = int(quantity)
+        # Multiply the price and quantity and add it to the total
+    total += price * quantity
+    # Display the total in a label
+    total_label.config(text=f"Total: {total}")
 
 
 #calculate_total function done
@@ -190,7 +201,7 @@ def login():
     admin = customtkinter.CTkToplevel(root)
     
     admin.geometry("800x600")
-    admin.minsize(800,600)
+    admin.maxsize(800,600)
     admin.title("Admin Page")
     #this WM transient command will put top level window in front of my main window
     #thank to stackoverflow i found this command
@@ -199,7 +210,7 @@ def login():
 
 #now I WILL configured the rows and columns in my admin window
     admin.columnconfigure(0,weight =2,uniform="a")
-    admin.columnconfigure(1,weight =2,uniform="a")
+    admin.columnconfigure(1,weight =3,uniform="a")
     admin.rowconfigure(0,weight =1,uniform="a")
     admin.rowconfigure(1,weight =3,uniform="a")
 
@@ -332,6 +343,8 @@ def login():
     # configuring excel file frame
 
     exel_file_frame.columnconfigure(0, weight=1)
+    exel_file_frame.columnconfigure(1, weight=3)
+    exel_file_frame.columnconfigure(2, weight=1)
     exel_file_frame.rowconfigure(0, weight=1)
 
 
@@ -339,11 +352,10 @@ def login():
     # so here I will use TTK frame from TTK module
     tree_frame =ttk.Frame(exel_file_frame, width=100, height=500)
     # will it a grid
-    tree_frame.grid(row=0, column=1, padx=5, pady=5, sticky=tkinter.NSEW)
+    tree_frame.grid(row=0, column=0, columnspan=2, padx=5, pady=5, sticky=tkinter.NSEW)
 
 
     tree_frame.columnconfigure(0, weight=1)
-    tree_frame.columnconfigure(1, weight=1)
     tree_frame.rowconfigure(0, weight=1)
 
     # now i will create a treeview in tree frame
@@ -357,7 +369,7 @@ def login():
     tree_scroll.grid(row=0, column=1, sticky=tkinter.NSEW)
 
 # now I will create a tuple named colm and i will put names of my columns in excel file
-    colm = ("name", "stock", "price")
+    colm = ("name","price","stock")
 
     
     #now I will create a treeview with the columns i created
@@ -370,11 +382,11 @@ def login():
     
     # now I will configure the size of the columns of my tree view
 
-    tree_view.column("name", width=100)
-    tree_view.column("stock", width=50)
-    tree_view.column("price", width=75)
     
     
+    tree_view.column("name", width=50)
+    tree_view.column("price", width=35)
+    tree_view.column("stock", width=25)
     
 
 
@@ -393,6 +405,7 @@ def login():
 
       # now I will make a function to load data
     def load_data():
+    
   
     # now I will create a list with tuples of all the data
 
@@ -402,13 +415,15 @@ def login():
       for col_name in list_values[0]:
     # now I will specify the name of my heading in my tree view
         tree_view.heading(col_name, text=col_name)
+        for value_tuple in list_values[1:]:
+          tree_view.insert('', tkinter.END, values=value_tuple)
+
 
     # now I will loop through the list values and add the data to the treeview
 
-      for value_tuple in list_values[1:]:
-        tree_view.insert("", tkinter.END, values=value_tuple)
+    
 
-
+    load_data()
 
 
       # let's add two nested functions
@@ -700,8 +715,9 @@ total_label = customtkinter.CTkLabel(cart_frame,
 
 cart_listbox = CTkListbox(cart_frame,
   width=500,
+
   height=500,
-  font=("helvetica",24))
+  font=("helvetica"),)
 
 
 #now i will create a bill frame in which i will have bill label and a text box which will print all bill
@@ -738,15 +754,7 @@ clear_button = customtkinter.CTkButton(cse_button_frame, text ="Clear Cart",
     corner_radius=200,
     command=clear_cart)
 
-save_button = customtkinter.CTkButton(cse_button_frame, text ="Save",
-    width =120,
-    height =60,
-    font=("helvetica",19),
-    text_color="black",
-    fg_color="yellow",
-    hover_color="#c2b84e",
-    corner_radius=200,
-    command=save)
+
 
 
 
@@ -856,12 +864,12 @@ print_bill_button.grid(row=3, column=0, columnspan=2)
 #first i will make two rows and one columns in my cart frame
 cart_frame.rowconfigure(0,weight =1)
 cart_frame.rowconfigure(1,weight =5)
-cart_frame.rowconfigure(2,weight =5)
+cart_frame.rowconfigure(2,weight =1)
 cart_frame.columnconfigure(0,weight =1)
 #now i will place widgets in cart frame
 cart_label.grid(row=0, column=0,)
 cart_listbox.grid(row=1, column=0,)
-bill_label.grid(row=2, column=0,)
+total_label.grid(row=2, column=0,)
 
 
 
@@ -870,8 +878,6 @@ bill_label.grid(row=2, column=0,)
 
 #-----------------now i will work on bill box ------------------
 
-
-#bill box done
 
 bill_frame.rowconfigure(0,weight =1,uniform="a")
 bill_frame.rowconfigure(1,weight =5,uniform="a")
@@ -889,99 +895,10 @@ cse_button_frame.columnconfigure(2,weight=1,uniform="a")
 cse_button_frame.rowconfigure(0,weight=1)
 
 clear_button.grid(row=0, column=0,padx=7, sticky=tkinter.EW)
-save_button.grid(row=0, column=1,padx=7, sticky=tkinter.EW)
-
-exit_button.grid(row=0, column=2,padx=7, sticky=tkinter.EW)
+exit_button.grid(row=0, column=1,padx=7, sticky=tkinter.EW)
 
 # Start the main loop
 
-#lets make a function that will show output from entry box when i click button
-#-----------------now i will work on details frame----------------------
-
-#here first I will make four rows and two column in my details frame
-
-details_frame.rowconfigure(0,weight =1,uniform="a")
-details_frame.rowconfigure(1,weight =1,uniform="a")
-details_frame.rowconfigure(2,weight =1,uniform="a")
-details_frame.rowconfigure(3,weight =1,uniform="a")
-details_frame.columnconfigure(0,weight =1,uniform="a")
-details_frame.columnconfigure(1,weight =1,uniform="a")
-
-#now i will place widgets in details frame
-#putting widgets in order detail frame
-
-order_detail_frame.grid(row=0, column=0, columnspan=2,pady=10)
-customer_detail_frame.grid(row=2, column=0,columnspan=2)
-
-#configiring  order detail frame
-order_detail_frame.columnconfigure(0,weight =1)
-order_detail_frame.rowconfigure(0,weight =1)
-order_detail_frame.rowconfigure(1,weight =1)
-
-#configuring customer detail frame
-customer_detail_frame.columnconfigure(0, weight=1,)
-customer_detail_frame.rowconfigure(0, weight=1,)
-customer_detail_frame.rowconfigure(1, weight=1,)
-
-#griding widgets in order details frame
-
-enter_product.grid(row=1, column=0,pady=10,padx=6)
-enter_quantity.grid(row=2, column=0,pady=10,padx=6)
-
-#griding button in  details frame
-
-add_to_cart_button.grid(row=1, column=0,sticky=E,pady=10,padx=6)
-total_button.grid(row=1, column=1,sticky=W,pady=10,padx=6)
-
-#griding widgets in customer details frame
-customer_name.grid(row=0, column=0,pady=10,padx=6)
-customer_number.grid(row=1, column=0,pady=10,padx=6)
-#griding button in customer details frame
-print_bill_button.grid(row=3, column=0, columnspan=2)
-#-----------------details frame done------------------
-
-#-----------------now i will work on cart frame----------------------
-
-#first i will make two rows and one columns in my cart frame
-cart_frame.rowconfigure(0,weight =1)
-cart_frame.rowconfigure(1,weight =5)
-cart_frame.rowconfigure(2,weight =5)
-cart_frame.columnconfigure(0,weight =1)
-#now i will place widgets in cart frame
-cart_label.grid(row=0, column=0,)
-cart_listbox.grid(row=1, column=0,)
-bill_label.grid(row=2, column=0,)
-
-
-
-#-----------------cart frame done------------------
-
-
-#-----------------now i will work on bill box ------------------
-
-
-#bill box done
-
-bill_frame.rowconfigure(0,weight =1,uniform="a")
-bill_frame.rowconfigure(1,weight =5,uniform="a")
-bill_frame.columnconfigure(0,weight =1,uniform="a")
-#now i will place widgets in cart frame
-bill_label.grid(row=0, column=0,)
-
-
-#now i will do in last cse buttons
-
-cse_button_frame.columnconfigure(0,weight=1,uniform="a")
-cse_button_frame.columnconfigure(1,weight=1,uniform="a")
-cse_button_frame.columnconfigure(2,weight=1,uniform="a")
-cse_button_frame.rowconfigure(0,weight=1)
-
-clear_button.grid(row=0, column=0,padx=7, sticky=tkinter.EW)
-save_button.grid(row=0, column=1,padx=7, sticky=tkinter.EW)
-
-exit_button.grid(row=0, column=2,padx=7, sticky=tkinter.EW)
-
-# Start the main loop
 
 root.mainloop()
 #lets make a function that will show output from entry box when i click button
