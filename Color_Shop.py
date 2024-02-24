@@ -175,7 +175,7 @@ def calculate_total():
 
     #where I will create a variable called item parts and I will use items dot split to convert product detail strain into different strings its like it will create an list with different strings
 
-    product, price, quantity = item.split()
+    product, price, quantity = item.split(" ")
         # Convert the price and quantity to float and int respectively
     price = float(price)
     quantity = int(quantity)
