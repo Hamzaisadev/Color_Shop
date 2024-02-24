@@ -171,7 +171,7 @@ def calculate_total():
   #first make a total amount var and gave it 0 
   total_amount = 0 
   #now i will loop through the cart
-  for item in cart_listbox.get(0, 3):
+  for item in cart_listbox.get(0,"end"):
 
     #where I will create a variable called item parts and I will use items dot split to convert product detail strain into different strings its like it will create an list with different strings
 
@@ -180,7 +180,7 @@ def calculate_total():
     price = float(price)
     quantity = int(quantity)
         # Multiply the price and quantity and add it to the total
-    total += price * quantity
+    total_amount += price * quantity
     # Display the total in a label
     total_label.config(text=f"Total: {total}")
 
