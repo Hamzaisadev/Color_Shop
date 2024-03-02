@@ -36,10 +36,6 @@ customtkinter.set_default_color_theme("dark-blue")
 # now i will Create the main window (root)
 root = customtkinter.CTk()
 
-#here i am taking the size of the screenof the user with .winfo_screenwidth() and .winfo_screenheight()
-
-#width= root.winfo_screenwidth() 
-#height=root.winfo_screenheight()
 
 
 
